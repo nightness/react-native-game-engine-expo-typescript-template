@@ -1,0 +1,17 @@
+{
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"importHelpers": true,
+		"jsx": "react-jsx",
+		"strict": true,
+		"baseUrl": ".",
+		"module": "esnext",
+		"paths": {
+			"@entities": ["game/entities/index.ts"],
+			"@game": ["game/index.ts"],
+			"@svg": ["assets/SVG/index.ts"],
+			"@systems": ["game/systems/index.ts"],
+			"@types": ["game/types.ts"],
+		}
+	}
+}
