@@ -7,7 +7,7 @@ import { Balloon, Finger, Wall } from ".";
 export const entities = (restart: boolean = false) => {
   let engine = Matter.Engine.create(undefined, {
     enableSleeping: false,
-    gravity: { x: 0, y: 0.0005 },
+    gravity: { x: 0, y: 0.000005 },
   } as Matter.IEngineDefinition);
 
   let world = engine.world;
@@ -27,13 +27,13 @@ export const entities = (restart: boolean = false) => {
 
   let entities = {
     physics: { engine, world },
-    fingers: {
-      1: { position: [40, 200], renderer: Finger },
-      2: { position: [100, 200], renderer: Finger },
-      3: { position: [160, 200], renderer: Finger },
-      4: { position: [220, 200], renderer: Finger },
-      5: { position: [280, 200], renderer: Finger },
-    },
+    // fingers: {
+    //   1: { position: [40, 200], renderer: Finger },
+    //   2: { position: [100, 200], renderer: Finger },
+    //   3: { position: [160, 200], renderer: Finger },
+    //   4: { position: [220, 200], renderer: Finger },
+    //   5: { position: [280, 200], renderer: Finger },
+    // },
     Balloon: newBalloon(),
     LeftWall: Wall(
       world,
@@ -63,6 +63,26 @@ export const entities = (restart: boolean = false) => {
 
   Matter.Events.on(
     engine,
+    "removeBalloon",
+    ({ pairs }: Matter.IEventCollision<any>) => {
+      // pairs.forEach((pair: Matter.IPair) => {
+        // if (pair.bodyA.label === "Balloon" && pair.bodyB.label === "Floor") {
+        //   Matter.Events.trigger(engine, "removeBalloon");
+        // }
+
+        // Remove old balloon
+        const balloonBody = entities.Balloon.body;
+        Matter.World.remove(world, balloonBody, true);
+
+        // Add new Balloon
+        entities.Balloon = newBalloon();
+        // @ts-ignore
+        Matter.World.add(world, entities.Balloon);        
+      // });
+    });
+
+  Matter.Events.on(
+    engine,
     "collisionStart",
     ({ pairs }: Matter.IEventCollision<any>) => {
       for (var i = 0, j = pairs.length; i != j; ++i) {
@@ -72,19 +92,20 @@ export const entities = (restart: boolean = false) => {
           "collisionStart between " + bodyA.label + " - " + bodyB.label
         );
         const balloonBody = entities.Balloon.body;
-        Matter.Body.scale(balloonBody, 0.0, 0.0, {
-          x: balloonBody.bounds.min.x - 1000,
-          y: balloonBody.bounds.max.y,
-        });
+        const floorBody = entities.Floor.body;
+
+        // Remove balloon if it hits the floor
         Matter.World.remove(world, balloonBody, true);
 
+        // Subtract a point from the score
         const gameEngine = (global as any).gameEngine;
         gameEngine.dispatch({
-          type: "addToScore",
+          type: "subtractFromScore",
         });
 
         entities.Balloon = newBalloon();
 
+        // Add new Balloon
         // @ts-ignore
         Matter.World.add(world, entities.Balloon);
       }

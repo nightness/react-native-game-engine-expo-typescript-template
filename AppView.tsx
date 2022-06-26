@@ -42,13 +42,33 @@ export default function AppView() {
                             setScore(score => score + 1);
                             break;
                         }
+                        case "subtractFromScore": {
+                            setScore(score => score - 1);
+                            break;
+                        }
                     }
                 }}
                 style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
             >
                 <TouchableOpacity
                     onPress={() => {
-                        gameEngine?.swap(entities());
+                        // gameEngine?.swap(entities());
+                        if (isRunning) {
+                            gameEngine?.stop();
+                            setIsRunning(false);
+                        } else {
+                            gameEngine?.start();
+                            setIsRunning(true);
+                        }
+                    }}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        height: 55,
+                        width: "100%",
+                        borderColor: "red",
+                        borderWidth: 1,
                     }}
                 >
                     <Text
@@ -59,7 +79,7 @@ export default function AppView() {
                             marginTop: topInset / 2,
                         }}
                     >
-                        {score}
+                        {isRunning ? score : "Press to Resume"}
                     </Text>
                 </TouchableOpacity>
             </GameEngine>

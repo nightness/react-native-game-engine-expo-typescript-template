@@ -1,7 +1,11 @@
 import Matter, { Vector } from "matter-js";
-import { GameEngineUpdateEventOptionType, TouchEvent } from "react-native-game-engine";
+import {
+  GameEngineUpdateEventOptionType,
+  TouchEvent,
+} from "react-native-game-engine";
 
 import { windowHeight, windowWidth } from "@game";
+import { Balloon } from "@entities";
 
 export const GameLoop = (
   entities: any,
@@ -13,9 +17,15 @@ export const GameLoop = (
   touches
     .filter((t: TouchEvent) => t.type === "press")
     .forEach((t: TouchEvent) => {
-      let balloonPos = entities.Balloon.body.position;
-      console.log('Touch:', t, balloonPos);
-      // Matter.Body.setVelocity(something, { x: something.velocity.x + 20, y: something.velocity.y - 20 });
+      const balloonBody = entities.Balloon.body;
+      const balloonPos = balloonBody.position;
+      const { locationX, locationY } = t.event;
+      if (locationX < 50 && locationY < 50) {
+        dispatch({
+          type: "addToScore",
+        });
+        Matter.Events.trigger(engine, "removeBalloon");
+      }
     });
 
   Matter.Engine.update(engine, time.delta);

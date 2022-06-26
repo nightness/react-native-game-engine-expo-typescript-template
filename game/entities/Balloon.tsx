@@ -38,7 +38,7 @@ const Balloon = ({ body, color }: any) => {
       isStatic: false,
       // restitution: 0.4,
       // friction: 1,
-      frictionAir: 0.2,
+      frictionAir: 0.5,
       // mass: 0.1,
       // inverseMass: 0.1,
       // bounds: {
