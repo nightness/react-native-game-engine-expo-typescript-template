@@ -27,13 +27,6 @@ export const entities = (restart: boolean = false) => {
 
   let entities = {
     physics: { engine, world },
-    // fingers: {
-    //   1: { position: [40, 200], renderer: Finger },
-    //   2: { position: [100, 200], renderer: Finger },
-    //   3: { position: [160, 200], renderer: Finger },
-    //   4: { position: [220, 200], renderer: Finger },
-    //   5: { position: [280, 200], renderer: Finger },
-    // },
     Balloon: newBalloon(),
     LeftWall: Wall(
       world,
