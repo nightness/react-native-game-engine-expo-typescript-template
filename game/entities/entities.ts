@@ -2,7 +2,7 @@ import { Dimensions } from "react-native";
 import Matter from "matter-js";
 
 import { windowHeight, windowWidth } from "@game";
-import { Balloon, Finger, Wall } from ".";
+import { Balloon,  Wall } from ".";
 
 export const entities = (restart: boolean = false) => {
   let engine = Matter.Engine.create(undefined, {
