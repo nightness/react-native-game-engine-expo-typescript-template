@@ -13,8 +13,7 @@ export const entities = (restart: boolean = false) => {
   let world = engine.world;
   const topInset = (global as any).topInset; // for notch handling
 
-  const newBalloon = () => {
-    return Balloon(
+  const newBalloon = () => Balloon(
       world,
       "red",
       {
@@ -23,7 +22,6 @@ export const entities = (restart: boolean = false) => {
       },
       { width: 50, height: 50 }
     );
-  };
 
   let entities = {
     physics: { engine, world },
