@@ -1,5 +1,4 @@
 import Matter from 'matter-js'
-import React from 'react'
 import { ColorValue, View } from 'react-native'
 
 import { BalloonSVG } from '@svg'

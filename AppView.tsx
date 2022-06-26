@@ -67,8 +67,8 @@ export default function AppView() {
                         left: 0,
                         height: 55,
                         width: "100%",
-                        borderColor: "red",
-                        borderWidth: 1,
+                        // borderColor: "red",
+                        // borderWidth: 1,
                     }}
                 >
                     <Text

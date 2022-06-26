@@ -1,5 +1,4 @@
 import { Dimensions } from "react-native";
-import Matter from "matter-js";
 
 export { windowHeight, windowWidth } from "@game";
 

@@ -7,7 +7,7 @@ import { Balloon,  Wall } from ".";
 export const entities = (restart: boolean = false) => {
   let engine = Matter.Engine.create(undefined, {
     enableSleeping: false,
-    gravity: { x: 0, y: 0.000005 },
+    gravity: { x: 0, y: 0.001 },
   } as Matter.IEngineDefinition);
 
   let world = engine.world;
