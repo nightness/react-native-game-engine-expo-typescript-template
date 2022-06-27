@@ -5,7 +5,6 @@ import {
 } from "react-native-game-engine";
 
 import { windowHeight, windowWidth } from "@game";
-import { Balloon } from "@entities";
 
 export const GameLoop = (
   entities: any,
@@ -17,10 +16,11 @@ export const GameLoop = (
   touches
     .filter((t: TouchEvent) => t.type === "press")
     .forEach((t: TouchEvent) => {
-      const balloonBody = entities.Balloon.body;
-      const balloonPos = balloonBody.position;
-      const { locationX, locationY } = t.event;
-      if (locationX < 50 && locationY < 50) {
+      const balloonBody = entities.Balloon.body as Matter.IBodyDefinition;
+      const balloonPos = balloonBody.position as Matter.Vector;
+      const { pageX, pageY } = t.event;
+      // if (locationX < 50 && locationY < 50) { // for some reason this works, but the line below is more readable.
+      if (Math.abs(pageX - balloonPos.x) < 50 && Math.abs(pageY - balloonPos.y) < 50) {
         dispatch({
           type: "addToScore",
         });
