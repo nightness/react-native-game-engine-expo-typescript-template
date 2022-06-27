@@ -23,14 +23,14 @@ const Wall = ({ body, color }: any) => {
     )
 }
 
-export default (world: Matter.Composite, color: ColorValue, pos: Position2D, size: Size2D) => {
+export default (label: string, world: Matter.Composite, color: ColorValue, pos: Position2D, size: Size2D) => {
     const body = Matter.Bodies.rectangle(
         pos.x,
         pos.y,
         size.width,
         size.height,
         {
-            label: 'Wall',
+            label,
             isStatic: true
         } as Matter.IChamferableBodyDefinition
     )

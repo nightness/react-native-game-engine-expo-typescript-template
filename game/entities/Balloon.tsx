@@ -27,14 +27,16 @@ const Balloon = ({ body, color }: any) => {
   };
   
   export default (
+    label: string,
     world: Matter.Composite,
     color: ColorValue,
     pos: Position2D,
     size: Size2D
   ) => {
     const body = Matter.Bodies.circle(pos.x, pos.y, 50, {
-      label: "Balloon",
+      label,
       isStatic: false,
+      id: 5,
       // restitution: 0.4,
       // friction: 1,
       frictionAir: 0.5,
