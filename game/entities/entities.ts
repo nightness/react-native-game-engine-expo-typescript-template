@@ -77,8 +77,6 @@ export const entities = (restart: boolean = false) => {
         const bodyA = pairs[i].bodyA;
         const bodyB = pairs[i].bodyB;
 
-        console.log(bodyA.label, bodyB.label);
-
         // We only want collisions between the balloon and the floor
         if ((bodyA.label !== "Balloon" && bodyB.label !== "Balloon") || (bodyA.label !== "Floor" && bodyB.label !== "Floor")) {
           continue;
