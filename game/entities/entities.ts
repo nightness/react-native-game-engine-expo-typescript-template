@@ -2,7 +2,7 @@ import { Dimensions } from "react-native";
 import Matter from "matter-js";
 
 import { windowHeight, windowWidth } from "@game";
-import { Balloon,  Wall } from ".";
+import { Balloon, Wall } from ".";
 
 export const entities = (restart: boolean = false) => {
   let engine = Matter.Engine.create(undefined, {
@@ -13,7 +13,9 @@ export const entities = (restart: boolean = false) => {
   let world = engine.world;
   const topInset = (global as any).topInset; // for notch handling
 
-  const newBalloon = () => Balloon(
+  const newBalloon = () =>
+    Balloon(
+      "Balloon",
       world,
       "red",
       {
@@ -27,24 +29,28 @@ export const entities = (restart: boolean = false) => {
     physics: { engine, world },
     Balloon: newBalloon(),
     LeftWall: Wall(
+      "LeftWall",
       world,
       "orange",
       { x: 0 - 25, y: windowHeight / 2 },
       { height: windowHeight, width: 50 }
     ),
     RightWall: Wall(
+      "RightWall",
       world,
       "orange",
       { x: windowWidth + 25, y: windowHeight / 2 },
       { height: windowHeight, width: 50 }
     ),
     Ceiling: Wall(
+      "Ceiling",
       world,
       "orange",
       { x: 0, y: 0 },
       { height: 110 + topInset, width: windowWidth * 2 }
     ),
     Floor: Wall(
+      "Floor",
       world,
       "orange",
       { x: windowWidth / 2, y: windowHeight + 60 },
@@ -52,36 +58,31 @@ export const entities = (restart: boolean = false) => {
     ),
   };
 
-  Matter.Events.on(
-    engine,
-    "removeBalloon",
-    ({ pairs }: Matter.IEventCollision<any>) => {
-      // pairs.forEach((pair: Matter.IPair) => {
-        // if (pair.bodyA.label === "Balloon" && pair.bodyB.label === "Floor") {
-        //   Matter.Events.trigger(engine, "removeBalloon");
-        // }
+  Matter.Events.on(engine, "removeBalloon", () => {
+    // Remove old balloon
+    const balloonBody = entities.Balloon.body;
+    Matter.World.remove(world, balloonBody, true);
 
-        // Remove old balloon
-        const balloonBody = entities.Balloon.body;
-        Matter.World.remove(world, balloonBody, true);
-
-        // Add new Balloon
-        entities.Balloon = newBalloon();
-        // @ts-ignore
-        Matter.World.add(world, entities.Balloon);        
-      // });
-    });
+    // Add new Balloon
+    entities.Balloon = newBalloon();
+    // @ts-expect-error, for some reason this doesn't work as expected if passed as entities.Balloon.body
+    Matter.World.add(world, entities.Balloon);
+  });
 
   Matter.Events.on(
     engine,
     "collisionStart",
-    ({ pairs }: Matter.IEventCollision<any>) => {
+    ({ pairs, name, source, timestamp }: Matter.IEventCollision<any>) => {
       for (var i = 0, j = pairs.length; i != j; ++i) {
         const bodyA = pairs[i].bodyA;
         const bodyB = pairs[i].bodyB;
-        console.log(
-          "collisionStart between " + bodyA.label + " - " + bodyB.label
-        );
+
+        console.log(bodyA.label, bodyB.label);
+
+        // We only want collisions between the balloon and the floor
+        if ((bodyA.label !== "Balloon" && bodyB.label !== "Balloon") || (bodyA.label !== "Floor" && bodyB.label !== "Floor")) {
+          continue;
+        }
         const balloonBody = entities.Balloon.body;
         const floorBody = entities.Floor.body;
 
@@ -94,10 +95,9 @@ export const entities = (restart: boolean = false) => {
           type: "subtractFromScore",
         });
 
-        entities.Balloon = newBalloon();
-
         // Add new Balloon
-        // @ts-ignore
+        entities.Balloon = newBalloon();
+        // @ts-expect-error, for some reason this doesn't work if passed as entities.Balloon.body
         Matter.World.add(world, entities.Balloon);
       }
     }
@@ -108,6 +108,6 @@ export const entities = (restart: boolean = false) => {
 
 export const useEntities = () => {
   return {
-    entities
-  }
-}
+    entities,
+  };
+};
