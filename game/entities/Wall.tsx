@@ -2,9 +2,9 @@ import Matter from 'matter-js'
 import React from 'react'
 import { ColorValue, View } from 'react-native'
 
-import { Position2D, Size2D } from '@types'
+import { GameEntity, Position2D, Size2D } from '@types'
 
-const Wall = ({ body, color }: any) => {
+const Wall = ({ body, color }: GameEntity) => {
     const widthBody = body.bounds.max.x - body.bounds.min.x
     const heightBody = body.bounds.max.y - body.bounds.min.y
 

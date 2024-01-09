@@ -1,26 +1,27 @@
-import Matter, { Vector } from "matter-js";
+import { GameEngineEntities, GameEntity } from "@types";
+import Matter from "matter-js";
 import {
   GameEngineUpdateEventOptionType,
   TouchEvent,
 } from "react-native-game-engine";
 
-import { windowHeight, windowWidth } from "@game";
-
 export const GameLoop = (
-  entities: any,
+  entities: GameEngineEntities,
   { touches, time, dispatch }: GameEngineUpdateEventOptionType
 ) => {
-  let engine = entities.physics.engine;
-  let world = entities.physics.world;
+  const engine = entities.physics.engine;
 
   touches
     .filter((t: TouchEvent) => t.type === "press")
     .forEach((t: TouchEvent) => {
-      const balloonBody = entities.Balloon.body as Matter.IBodyDefinition;
+      const balloonBody = (entities.Balloon as GameEntity).body;
       const balloonPos = balloonBody.position as Matter.Vector;
+
       const { pageX, pageY } = t.event;
-      // if (locationX < 50 && locationY < 50) { // for some reason this works, but the line below is more readable.
-      if (Math.abs(pageX - balloonPos.x) < 50 && Math.abs(pageY - balloonPos.y) < 50) {
+      if (
+        Math.abs(pageX - balloonPos.x) < 100 &&
+        Math.abs(pageY - balloonPos.y) < 100
+      ) {
         dispatch({
           type: "addToScore",
         });

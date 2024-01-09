@@ -1,13 +1,8 @@
-import { Dimensions } from "react-native";
-
 export { windowHeight, windowWidth } from "@game";
 
 import Wall from "./Wall";
-import Balloon from './Balloon';
+import Balloon from "./Balloon";
 
-export {
-    Wall,
-    Balloon
-};
+export { Wall, Balloon };
 
-export * from './entities';
+export * from "./entities";

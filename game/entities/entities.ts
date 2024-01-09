@@ -1,17 +1,22 @@
-import { Dimensions } from "react-native";
 import Matter from "matter-js";
 
 import { windowHeight, windowWidth } from "@game";
 import { Balloon, Wall } from ".";
+import { GameEngineEntities } from "@types";
 
-export const entities = (restart: boolean = false) => {
-  let engine = Matter.Engine.create(undefined, {
+export function entities(): GameEngineEntities {
+  const engine = Matter.Engine.create({
     enableSleeping: false,
-    gravity: { x: 0, y: 0.001 },
+    gravity: { x: 0, y: 1.75 },
   } as Matter.IEngineDefinition);
 
-  let world = engine.world;
-  const topInset = (global as any).topInset; // for notch handling
+  const world = engine.world;
+  const [top, bottom] = [
+    global.topInset,
+    global.bottomInset,
+    global.leftInset,
+    global.rightInset,
+  ];
 
   const newBalloon = () =>
     Balloon(
@@ -20,41 +25,41 @@ export const entities = (restart: boolean = false) => {
       "red",
       {
         x: Math.random() * (windowWidth - 100) + 50,
-        y: 150,
+        y: 200,
       },
-      { width: 50, height: 50 }
+      { width: 40, height: 50 }
     );
 
-  let entities = {
+  const entities = {
     physics: { engine, world },
     Balloon: newBalloon(),
-    LeftWall: Wall(
-      "LeftWall",
-      world,
-      "orange",
-      { x: 0 - 25, y: windowHeight / 2 },
-      { height: windowHeight, width: 50 }
-    ),
-    RightWall: Wall(
-      "RightWall",
-      world,
-      "orange",
-      { x: windowWidth + 25, y: windowHeight / 2 },
-      { height: windowHeight, width: 50 }
-    ),
+    // LeftWall: Wall(
+    //   "LeftWall",
+    //   world,
+    //   "orange",
+    //   { x: 0 - 25, y: windowHeight / 2 },
+    //   { height: windowHeight - topInset - bottomInset + 560, width: 50 }
+    // ),
+    // RightWall: Wall(
+    //   "RightWall",
+    //   world,
+    //   "orange",
+    //   { x: windowWidth + 25, y: windowHeight / 2 },
+    //   { height: windowHeight - topInset - bottomInset + 560, width: 50 }
+    // ),
     Ceiling: Wall(
       "Ceiling",
       world,
       "orange",
       { x: 0, y: 0 },
-      { height: 110 + topInset, width: windowWidth * 2 }
+      { height: 110 + top, width: windowWidth * 2 }
     ),
     Floor: Wall(
       "Floor",
       world,
       "orange",
-      { x: windowWidth / 2, y: windowHeight + 60 },
-      { height: 60, width: windowWidth }
+      { x: windowWidth / 2, y: windowHeight - top },
+      { height: 60 + bottom, width: windowWidth }
     ),
   };
 
@@ -72,23 +77,25 @@ export const entities = (restart: boolean = false) => {
   Matter.Events.on(
     engine,
     "collisionStart",
-    ({ pairs, name, source, timestamp }: Matter.IEventCollision<any>) => {
-      for (var i = 0, j = pairs.length; i != j; ++i) {
+    ({ pairs }: Matter.IEventCollision<object>) => {
+      for (let i = 0, j = pairs.length; i != j; ++i) {
         const bodyA = pairs[i].bodyA;
         const bodyB = pairs[i].bodyB;
 
         // We only want collisions between the balloon and the floor
-        if ((bodyA.label !== "Balloon" && bodyB.label !== "Balloon") || (bodyA.label !== "Floor" && bodyB.label !== "Floor")) {
+        if (
+          (bodyA.label !== "Balloon" && bodyB.label !== "Balloon") ||
+          (bodyA.label !== "Floor" && bodyB.label !== "Floor")
+        ) {
           continue;
         }
         const balloonBody = entities.Balloon.body;
-        const floorBody = entities.Floor.body;
 
         // Remove balloon if it hits the floor
         Matter.World.remove(world, balloonBody, true);
 
         // Subtract a point from the score
-        const gameEngine = (global as any).gameEngine;
+        const gameEngine = global.gameEngine!;
         gameEngine.dispatch({
           type: "subtractFromScore",
         });
@@ -102,7 +109,7 @@ export const entities = (restart: boolean = false) => {
   );
 
   return entities;
-};
+}
 
 export const useEntities = () => {
   return {

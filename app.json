@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nightness.reactnativegameengineexpotypescripttemplate"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "jsEngine": "jsc",
+    "extra": {
+      "eas": {
+        "projectId": "bb283987-7da9-4a8e-b730-4aebcd816864"
+      }
     }
   }
 }
