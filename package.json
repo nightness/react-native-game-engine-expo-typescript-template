@@ -22,18 +22,23 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@expo/metro-runtime": "~5.0.4",
+    "babel-plugin-module-resolver": "^5.0.2",
     "expo": "53.0.22",
     "expo-dev-client": "~5.2.4",
     "expo-status-bar": "~2.2.3",
     "matter-js": "^0.18.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-game-engine": "^1.2.0",
     "react-native": "0.79.6",
     "react-native-game-engine": "^1.2.0",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-svg": "15.11.2",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "regenerator-runtime": "^0.14.1",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -25,7 +26,7 @@ function SafeView() {
   global.rightInset = right;
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <GameEngine />
     </SafeAreaView>
   );

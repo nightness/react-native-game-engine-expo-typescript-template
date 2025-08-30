@@ -1,7 +1,8 @@
 import Matter from "matter-js";
 
 import { windowHeight, windowWidth } from "@game";
-import { Balloon, Wall } from ".";
+import Balloon from "./Balloon";
+import Wall from "./Wall";
 import { GameEngineEntities } from "@types";
 
 export function entities(): GameEngineEntities {
@@ -18,14 +19,16 @@ export function entities(): GameEngineEntities {
     global.rightInset,
   ];
 
+  const balloonColors = ["red", "blue", "green", "purple", "orange", "brown"];
+  
   const newBalloon = () =>
     Balloon(
       "Balloon",
       world,
-      "red",
+      balloonColors[Math.floor(Math.random() * balloonColors.length)],
       {
         x: Math.random() * (windowWidth - 100) + 50,
-        y: 200,
+        y: top + 80, // Start just below the score area
       },
       { width: 40, height: 50 }
     );
