@@ -1,14 +1,11 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Logs } from 'expo'
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import GameEngine from "./game/systems/GameEngine";
 
 export default function App() {
-  Logs.enableExpoCliLogging()
-
   return (
     <>
       <StatusBar backgroundColor="orange" hidden={true} />
