@@ -2,7 +2,7 @@
   "expo": {
     "name": "react-native-game-engine-expo-typescript-template",
     "slug": "react-native-game-engine-expo-typescript-template",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nightness.reactnativegameengineexpotypescripttemplate"
@@ -23,11 +25,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.nightness.reactnativegameengineexpotypescripttemplate"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "jsEngine": "jsc"
+    "jsEngine": "jsc",
+    "extra": {
+      "eas": {
+        "projectId": "bb283987-7da9-4a8e-b730-4aebcd816864"
+      }
+    }
   }
 }
