@@ -1,14 +1,23 @@
 # React Native Game Engine Expo TypeScript Template
 
-This template is designed to jumpstart your game development with React Native using the react-native-game-engine library and TypeScript. It comes pre-configured with Expo Dev Client, allowing for a faster and more integrated development workflow.
+A modern template to jumpstart your game development with React Native using the react-native-game-engine library and TypeScript. Includes a complete "Balloon Pop" example game. Uses Expo 53, React 19, and has web support.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js
-- Expo CLI
+- Node.js (18+)
+- Expo CLI or `npx expo`
 - eas-cli (for building and submitting your app using EAS Build and EAS Submit)
+
+### Current Stack
+
+- **Expo SDK**: 53
+- **React**: 19
+- **React Native**: 0.79.6
+- **TypeScript**: Strict mode with path mapping
+- **ESLint**: Configured for TypeScript + React
+- **Cross-platform**: iOS, Android, and Web support
 
 ### Setup
 
@@ -23,6 +32,14 @@ Install the dependencies:
 
 ```sh
 npm install
+```
+
+### Type Checking
+
+Run TypeScript type checking:
+
+```sh
+npm run type-check
 ```
 
 ## Using Expo Dev Client
@@ -68,50 +85,63 @@ To run the game on a specific platform, use the corresponding script:
 ```sh
 npm run android # for Android
 npm run ios # for iOS
-npm run web # for Web
+npm run web # for Web (with react-game-engine)
 ```
 
 ## Project Structure
 
-- `assets`: Contains static assets such as images and sounds.
-- `game`: Core game logic.
-  - `entities`: Game entity components (e.g., `Balloon.tsx`).
-  - `systems`: Game system logic (e.g., `GameLoop.ts`).
-- `types.ts`: TypeScript type definitions and interfaces.
+- `assets/`: Static assets including custom SVG components
+  - `SVG/`: Custom game SVG components (BalloonSVG, QuitSVG)
+- `game/`: Core game logic and types
+  - `entities/`: Game entity components and factory functions
+  - `systems/`: Game engine and loop logic
+  - `types.ts`: TypeScript interfaces and type definitions
+  - `global.d.ts`: Global type declarations
+- `types/`: Additional TypeScript declarations (react-game-engine)
+- Configuration files: `tsconfig.json`, `.eslintrc.js`, `babel.config.js`
 
-## Modifying the Template
+## Example Game: Balloon Pop
 
-To modify the template and create your own game, follow these steps:
+This template includes a complete example game to demonstrate the architecture:
 
-1. **Design Your Game**: Plan out your game's mechanics, rules, and entities.
-2. **Create Game Entities**: Modify or create new TypeScript React components in the `game/entities` directory to represent your game's entities.
-3. **Implement Game Logic**: Write the game logic inside the `game/systems` directory. The `GameLoop.ts` file is where you will define how your game state updates with time.
-4. **Update Assets**: Add or replace assets in the `assets` folder as needed for your game.
-5. **Define Types**: If you create new entities or systems, update the `types.ts` file to define the TypeScript types that correspond to your game's components.
-6. **Integrate Entities and Systems**: Use the `GameEngine.tsx` component to integrate your entities and systems into the game loop.
-7. **Launch the Game**: Use the Expo CLI to run and test your game.
-8. **Build and Publish**: Once your game is complete and tested, follow the Expo documentation to build and publish your game to the iOS App Store and Google Play Store.
+- **Gameplay**: Touch/click balloons before they hit the ground
+- **Scoring**: +1 point for each balloon popped, -1 for missed balloons  
+- **Features**: High score tracking, game states (start/playing/paused), quit confirmation
+- **Cross-platform**: Works on mobile (touch) and web (mouse clicks)
+- **Physics**: Matter.js integration for realistic balloon movement
+
+## Creating Your Own Game
+
+1. **Study the Example**: Review the Balloon Pop implementation to understand the architecture
+2. **Replace Game Logic**: Modify `game/entities/entities.ts` to define your game entities
+3. **Update Game Loop**: Edit `game/systems/GameLoop.ts` for your game's update logic
+4. **Create New Entities**: Add entity components in `game/entities/` following the pattern
+5. **Add Assets**: Replace or add SVG components and other assets
+6. **Update Types**: Modify `game/types.ts` for your game's data structures
+7. **Customize UI**: Edit `game/systems/GameEngine.tsx` for your game's interface
+8. **Test & Build**: Use the provided build scripts for development and production
 
 ## Building and Submitting
 
 The `eas.json` file is configured with profiles for local, development, preview, and production builds:
 
-- `build:adhoc`: Build a local adhoc app binary locally.
-- `build:dev`: Build a development client app binary locally.
-- `build:preview`: Increment the app version, build and upload the app to Expo's preview channel.
-- `build:production`: Increment the app version, build and upload the app to Expo's production channel.
-- `eas:preview`: Build and submit the app to the preview channel automatically.
-- `eas:production`: Build and submit the app to the production channel automatically.
-- `submit:preview`: Submit the app to the preview channel.
-- `submit:production`: Submit the app to the production channel.
-- `update`: Update your app on the fly without needing to resubmit to app stores.
+- `build:adhoc`: Build a local adhoc app binary locally
+- `build:dev`: Build a development client app binary locally  
+- `build:preview`: Build for preview channel
+- `build:production`: Build for production channel
+- `eas:preview`: Build and submit to preview channel automatically
+- `eas:production`: Build and submit to production channel automatically
+- `submit:preview`: Submit app to preview channel
+- `submit:production`: Submit app to production channel
+- `update`: Push over-the-air updates without app store resubmission
 
 ```sh
-npm run build:adhoc # Build for physical device testing
-npm run build:dev # Build for Expo development client
-npm run build:preview # Build for preview
-npm run eas:preview # Build and submit for preview
-npm run eas:production # Build and submit for production
+npm run build:adhoc      # Build for physical device testing
+npm run build:dev        # Build for Expo development client  
+npm run build:preview    # Build for preview
+npm run build:production # Build for production
+npm run eas:preview      # Build and submit for preview
+npm run eas:production   # Build and submit for production
 ```
 
 ## Continuous Updates
@@ -119,9 +149,18 @@ npm run eas:production # Build and submit for production
 With EAS Update, you can keep your app up to date without waiting for app store reviews:
 
 ```sh
-npm run update:preview # Update the preview channel
+npm run update           # Auto-update
+npm run update:preview   # Update the preview channel
 npm run update:production # Update the production channel
 ```
+
+## Development Features
+
+- **ESLint**: Pre-configured with TypeScript and React rules
+- **TypeScript**: Strict mode with path mapping for clean imports
+- **Cross-platform**: Shared game logic works on mobile and web
+- **Hot Reload**: Fast development with Expo dev client
+- **Matter.js**: Physics engine integration for realistic game mechanics
 
 ## Support
 
@@ -133,4 +172,4 @@ Contributions are welcome. Please fork the repository and submit a pull request.
 
 ## License
 
-This project is licensed under the Apache-2.0 License.
+This project is licensed under the MIT License.
